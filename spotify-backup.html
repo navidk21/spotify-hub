@@ -333,7 +333,7 @@
 
 <script>
 // ─── Config ──────────────────────────────────────────────────────────────────
-const REDIRECT_URI = window.location.protocol === 'file:' ? 'https://navidk21.github.io/spotify-hub/spotify-backup.html' : window.location.href.split('?')[0].split('#')[0];
+const REDIRECT_URI = 'https://navidk21.github.io/spotify-hub/spotify-backup.html';
 const SCOPES = 'playlist-read-private playlist-read-collaborative playlist-modify-public playlist-modify-private';
 const STORAGE_KEY = 'spotify_vault_backups';
 const CREDS_KEY = 'spotify_vault_creds';
@@ -697,7 +697,7 @@ function renderBackup() {
             : `<div class="playlist-cover-placeholder"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>`
           }
           <div class="playlist-name" title="${pl.name}">${pl.name}</div>
-          <div class="playlist-meta">${pl.tracks.total} tracks</div>
+          <div class="playlist-meta">${pl.tracks?.total ?? 0} tracks</div>
         </div>`;
       }).join('')
     }
@@ -707,7 +707,7 @@ function renderBackup() {
     <div>
       <strong>${sel.size}</strong> playlist${sel.size !== 1 ? 's' : ''} selected
       <span style="color:var(--text-muted);font-size:13px;margin-left:8px">
-        (~${pls.filter(p => sel.has(p.id)).reduce((a,p) => a+p.tracks.total,0)} tracks)
+        (~${pls.filter(p => sel.has(p.id)).reduce((a,p) => a+(p.tracks?.total ?? 0),0)} tracks)
       </span>
     </div>
     <button class="btn btn-green" id="backup-btn" onclick="runBackup()">
